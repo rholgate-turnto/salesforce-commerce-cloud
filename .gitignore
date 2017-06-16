@@ -1,1 +1,4 @@
 .DS_Store
+cartridges/int_turnto_controllers/.tern-project
+cartridges/int_turnto_core/.tern-project
+cartridges/int_turnto_pipelines/.tern-project

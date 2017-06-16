@@ -39,7 +39,7 @@
 	<script>
   		TurnToFeed.addFeedPurchaseOrder({orderId:'${pdict.Order.getOrderNo()}',email:'${pdict.Order.getCustomerEmail()}',postalCode: '${pdict.Order.getBillingAddress().getPostalCode()}',firstName: '${pdict.Order.getBillingAddress().getFirstName()}', lastName: '${pdict.Order.getBillingAddress().getLastName()}', deliveryDate: '${dw.util.StringUtils.formatCalendar(new dw.util.Calendar(pdict.Order.getCreationDate()), "yyyy-MM-dd hh:mm:ss")}' });
   		<isloop items="${pdict.Order.getProductLineItems()}" var="item">
-      		TurnToFeed.addFeedLineItem({title: '${item.getProduct().getName().replace(/'/g, "\\'")}', url: '${dw.web.URLUtils.http('Product-Show', 'pid', item.getProduct().getID()).toString()}',sku:'${item.getProduct().isVariant() ? item.getProduct().getVariationModel().getMaster().getID() : item.getProduct().getID()}', price:'${item.getAdjustedNetPrice().getValue().toString()}',itemImageUrl:'${item.getProduct().getImage("small") != null ? item.getProduct().getImage("small").getAbsURL().toString() : ""}' });
+      		TurnToFeed.addFeedLineItem({title: '${item.getProduct().getName().replace(/'/g, "\\'")}', url: '${dw.web.URLUtils.http('Product-Show', 'pid', item.getProduct().getID()).toString()}',sku:'${item.getProduct().isVariant() && dw.system.Site.getCurrent().getCustomPreferenceValue('turntoUseVariants') != true ? item.getProduct().getVariationModel().getMaster().getID() : item.getProduct().getID()}', price:'${item.getAdjustedNetPrice().getValue().toString()}',itemImageUrl:'${item.getProduct().getImage("small") != null ? item.getProduct().getImage("small").getAbsURL().toString() : ""}' });
   		</isloop>
   		TurnToFeed.sendFeed();
 	</script>

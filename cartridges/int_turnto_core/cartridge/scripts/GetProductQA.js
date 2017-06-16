@@ -35,7 +35,12 @@ function getProductQA(pid) {
 	if(pid != null)
 	{
 		var product = ProductMgr.getProduct(pid);
-		pid = product.isVariant() ? product.masterProduct.ID : product.ID;
+		var useVariants : Boolean = Site.getCurrent().getCustomPreferenceValue('turntoUseVariants') == true;
+		if (product.isMaster() && useVariants) {
+			pid = product.getVariationModel().defaultVariant.ID;			
+		} else {
+			pid = product.isVariant() && !useVariants ? product.masterProduct.ID : product.ID;
+		}
 	}
 	
    	var turntoStaticUrl:String= Site.getCurrent().getCustomPreferenceValue('turntoStaticURL');

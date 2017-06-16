@@ -44,6 +44,8 @@ function exportCatalog() {
 	
 	var timeoutMs : Integer = Site.getCurrent().getCustomPreferenceValue('turntoTimeout');
 	
+	var useVariants : Boolean = Site.getCurrent().getCustomPreferenceValue('turntoUseVariants') == true;
+	
 	// Get the file path where the output will be stored
 	var impexPath : String = File.getRootDirectory(File.IMPEX).getFullPath();
 	// Create a TurnTo directory if one doesn't already exist
@@ -63,7 +65,7 @@ function exportCatalog() {
 			while (products.hasNext()) {			 
 				var product : Product = products.next();
 				
-				if (product.isVariant()) {
+				if (product.isVariant() && !useVariants) {
 					continue;
 				}
 				
@@ -131,15 +133,22 @@ function exportCatalog() {
 				fileWriter.write("\t");
 				
 				// VIRTUALPARENTCODE								
-				if (product.isMaster()) {
-					fileWriter.write(replaceNull(product.getID(), ""));
+				if (product.isVariant() && useVariants) {
+					fileWriter.write(replaceNull(product.getVariationModel().getMaster().getID(), ""));
 				}
 				fileWriter.write("\t");
 				
 				// CATEGORYPATHJSON
+				var primaryCategory = null;
 				if (product.getPrimaryCategory() != null) {
-					var primaryCategoryID = product.getPrimaryCategory().getID();
-					var currentCategory = product.getPrimaryCategory();
+					primaryCategory = product.getPrimaryCategory();
+				} else if (product.isVariant() && product.getVariationModel().getMaster().getPrimaryCategory() != null) {
+					primaryCategory = product.getVariationModel().getMaster().getPrimaryCategory();
+				}
+				
+				if (primaryCategory != null) {
+					var primaryCategoryID = primaryCategory.getID();
+					var currentCategory = primaryCategory;
 					var categoryArray = new Array();
 					while (currentCategory != null && !currentCategory.isRoot()) 
 					{

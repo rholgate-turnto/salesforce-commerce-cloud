@@ -286,12 +286,13 @@
 				<externally-managed-flag>false</externally-managed-flag>
 				<default-value>3</default-value>
 			</attribute-definition>
-			<attribute-definition attribute-id="turntoHistoricalOrderDate">
-				<display-name xml:lang="x-default">Historical Order Date</display-name>
-				<description xml:lang="x-default">For the specific date transaction feed, export all orders created on X date</description>
-				<type>date</type>
+			<attribute-definition attribute-id="turntoUseVariants">
+				<display-name xml:lang="x-default">Use Variants</display-name>
+				<description xml:lang="x-default">Include product variants in the catalog feed and show the reviews for individual variants on the product details page.  Reviews for other variants will be shown as related reviews.</description>
+				<type>boolean</type>
 				<mandatory-flag>false</mandatory-flag>
 				<externally-managed-flag>false</externally-managed-flag>
+				<default-value>false</default-value>
 			</attribute-definition>
 		</custom-attribute-definitions>
 		<group-definitions>
@@ -306,6 +307,7 @@
 				<attribute attribute-id="turntoMobileLandingTitle" />
 				<attribute attribute-id="turntoTimeout" />
 				<attribute attribute-id="turntoCssOverwrites" />
+				<attribute attribute-id="turntoUseVariants" />
 			</attribute-group>
 			<attribute-group group-id="TurnToCheckoutComments">
 				<display-name xml:lang="x-default">TurnTo Checkout Comments

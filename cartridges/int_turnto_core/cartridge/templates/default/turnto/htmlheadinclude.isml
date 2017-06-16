@@ -3,7 +3,16 @@
    TTpid = null
    if(pdict.Product != null)
    {
-   TTpid = pdict.Product.isVariant() ? pdict.Product.masterProduct.ID : pdict.Product.ID;
+   		var product = pdict.Product;
+		var useVariants : Boolean = dw.system.Site.getCurrent().getCustomPreferenceValue('turntoUseVariants') == true;		
+		if (product.isMaster() && product.getVariationModel() != null && useVariants) {
+			<!-- returns the default variant or an arbitrary variant if a default is not defined. -->
+			TTpid = product.getVariationModel().defaultVariant.ID			
+		} else if (product.isVariant()) {
+			TTpid = useVariants ? product.ID : product.masterProduct.ID;
+		} else {
+			TTpid = product.ID;
+		}
    }
 </isscript>
 <isif condition="${TTpid != null}">

@@ -41,6 +41,7 @@ function exportHistoricalOrders() {
 	
 	var timeoutMs : Integer = Site.getCurrent().getCustomPreferenceValue('turntoTimeout');
 	var historicalOrderDays : Integer = Site.getCurrent().getCustomPreferenceValue('turntoHistoricalOrderDays');
+	var useVariants : Boolean = Site.getCurrent().getCustomPreferenceValue('turntoUseVariants') == true;
 	
 	// Get the file path where the output will be stored
 	var impexPath : String = File.getRootDirectory(File.IMPEX).getFullPath();
@@ -74,7 +75,7 @@ function exportHistoricalOrders() {
 						continue;
 					}
 					
-					if (product.isVariant()) {
+					if (product.isVariant() && !useVariants) {
 						product = product.getVariationModel().getMaster();	
 					}
 													
